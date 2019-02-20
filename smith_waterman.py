@@ -9,7 +9,7 @@ from itertools import dropwhile
 #It starts with by progressivly creating a scoring matrix (see matrix()) based on a gap penalty and a substitution matrix
 #The scoring matrix is then tracedback (see traceback()) by starting at the element with the highest score and tracing along the matrix until a zero is encountered. This ensures the optimal subalignment is found.
 
-def matrix(a, b, match_score, gap_cost=-4, gap_extension=-1):
+def matrix(a, b, match_score, gap_cost, gap_extension):
     #Purpose: create a scoring matrix of two input sequences
     #Input: two sequences, a substitution matrix, and an affine gap penalty
     #Output: scoring matrix between the two input sequences and
@@ -26,22 +26,11 @@ def matrix(a, b, match_score, gap_cost=-4, gap_extension=-1):
         y = dictionary[b[j-1]] #substitution matrix coordinate for second amino acid
         ms = match_score[x, y] #ms is the score from the substition matrix
         #match is defined as the two given amino acids being the same, in which a score is given as the top left element's score + the substitution score, s(a, b) or the ms variable used here.
-        match = H[i - 1, j - 1] + (ms if a[i - 1] == b[j - 1] else - ms)
-        #deletion is defined as the amino acid a not matching to b but to b-1
-        
         gapA = [H[i,j-k] + gap_cost + (gap_extension*k) for k in range(1,j+1)]
         gapB = [H[i-k,j] + gap_cost + (gap_extension*k) for k in range(1,i+1)]
         match= [H[i-1,j-1] + (ms if a[i-1] == b[j-1] else - ms)]
-        #delete = H[i - 1, j] - gap_cost
-        #insert is defined as the amino acid a not matching to b but a-1
-        #insert = H[i, j - 1] - gap_cost
-        #the current matrix element is then the max of the match score, delete score, insert score, or zero.
-        #matchAB = H[i-1,j-1] + (ms if a[i-1] == b[j-1] else - ms)
-        #gapB = [H[i-k,j] + gap_cost + (gap_extension*k) for k in range(1,j)]
-        #tmp = max(gapA, matchAB, gapB)
-        #H[i, j] = max(match, delete, insert, 0)
-        gapA_list.append(max(match))
-    return gapA_list
+        H[i,j] = max( max(gapA), max(gapB), max(match), 0 )
+    return H
 
 def traceback(H, b, b_='', old_i=0):
     #Purpose: find the highest scoring subsequence between between the two sequences
