@@ -91,45 +91,46 @@ for value in all_values:
 
 
 
-# ############### -- ROC curve code -- ###################
-#     s_list = np.zeros((50))
-#     p_list = np.zeros((50))
-#     fpr_list = []
-#     roc_list = []
-#     for mx in ["BLOSUM50", "BLOSUM62",  "MATIO",  "PAM100",  "PAM250"]:
-#         matrix_path = os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "PAM250")
-#         #false positives have an s > 311 with -9 and -3 gap penalties
-#         for x, a in enumerate(zip(nega_list,negb_list)):
-#             M = scoringMatrixParse(matrix_path)
-#             H = matrix(a[0], a[1], M, -9, -3)
-#             s = traceback(H, True, b=seq_B, b_="", old_i=0)
-#             smallest_seq_len = min(len(a[0]), len(a[1]))
-#             s_list[x] = s/smallest_seq_len
-#         matrix_pathp = os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "PAM250")
-#         #false positives have an s > 311 with -9 and -3 gap penalties
-#         for x, a in enumerate(zip(posa_list,posb_list)):
-#             M = scoringMatrixParse(matrix_pathp)
-#             H = matrix(a[0], a[1], M, -9, -3)
-#             s = traceback(H, True, b=seq_B, b_="", old_i=0)
-#             smallest_seq_len = min(len(a[0]), len(a[1]))
-#             p_list[x] = s/smallest_seq_len
-#
-#         all_values = set(np.append(p_list, s_list).flatten())
-#         tpr_list = []
-#         fpr_list = []
-#         for value in all_values:
-#             tpr = sum(p_list > value)/len(p_list)
-#             tpr_list.append(tpr)
-#             fpr = sum(s_list > value)/len(s_list)
-#             fpr_list.append(fpr)
-#
-#
-#         for tp in [[0.2,561],[0.4,415],[0.6,347],[0.8,263],[1,108]]:
-#             name = tp[0]
-#             thresh = tp[1]
-#             fpr = sum(s_list>thresh)/50
-#             print([mx, name ,fpr])
-#             roc_list.append([mx, name ,fpr])
+################# -- ROC curve code -- ###################
+s_list = np.zeros((50))
+p_list = np.zeros((50))
+fpr_list = []
+roc_list = []
+for mx in ["BLOSUM50", "BLOSUM62",  "MATIO",  "PAM100",  "PAM250"]:
+matrix_path = os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "PAM250")
+#false positives have an s > 311 with -9 and -3 gap penalties
+for x, a in enumerate(zip(nega_list,negb_list)):
+    M = scoringMatrixParse(matrix_path)
+    H = matrix(a[0], a[1], M, -9, -3)
+    s = traceback(H, True, b=seq_B, b_="", old_i=0)
+    s_list[x] = s
+matrix_pathp = os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "PAM250")
+#false positives have an s > 311 with -9 and -3 gap penalties
+for x, a in enumerate(zip(posa_list,posb_list)):
+    M = scoringMatrixParse(matrix_pathp)
+    H = matrix(a[0], a[1], M, -9, -3)
+    s = traceback(H, True, b=seq_B, b_="", old_i=0)
+    p_list[x] = s
+all_values = set(np.append(p_list, s_list).flatten())
+tpr_list = []
+fpr_list = []
+np.percentile(p_list, 30)
+for value in all_values:
+    tpr = sum(p_list > value)/len(p_list)
+    tpr_list.append(tpr)
+    fpr = sum(s_list > 38.7)/len(s_list)
+    fpr_list.append(fpr)
+#blosum50 is 0.28
+#blosum62 is 0.32
+#matio is 0.38
+#PAM100 is 0.12
+#pam250 is 0.34
+ for tp in [[0.2,561],[0.4,415],[0.6,347],[0.8,263],[1,108]]:
+     name = tp[0]
+     thresh = tp[1]
+     fpr = sum(s_list>thresh)/50
+     print([mx, name ,fpr])
+     roc_list.append([mx, name ,fpr])
 
 import matplotlib.pyplot as plt
 %matplotlib inline

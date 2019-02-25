@@ -75,4 +75,4 @@ def test_matrix():
     seqB = "MVLSGEDKSNIKAAWGKIGGHGAEYGAE"
     M = matrix(seqA, seqB, B50, -10, -1)
     s = traceback(M, True, b=seqB, b_="", old_i=0)
-    assert s == 135
+    assert s == 135 #135 should be the score (shown above)
