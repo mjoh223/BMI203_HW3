@@ -28,3 +28,5 @@ branches:
 # run tests
 script:
     "python -m pytest -v test/*"
+
+TRAVIS_BUILD_DIR = "/Users/matt/OneDrive/UCSF/algorithms/HW3/"
