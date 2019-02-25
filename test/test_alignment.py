@@ -51,7 +51,7 @@ def test_matrix():
 
     seqA = "MVLSPADKTNVKAAWGKVGAHAGEYG"
     seqB = "MVLSGEDKSNIKAAWGKIGGHGAEYGAE"
-    sub_mtx = scoringMatrixParse(os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "BLOSUM50"))
+    sub_mtx = scoringMatrixParse(os.path.join("../scoring_matrices/", "BLOSUM50"))
     M = matrix(seqA, seqB, sub_mtx, -10, -1)
     s = traceback(M, True, b=seqB, b_="", old_i=0)
     assert s == 135
