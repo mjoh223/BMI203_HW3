@@ -4,8 +4,7 @@ import pandas as pd
 import os
 import csv
 from itertools import dropwhile
-import numba
-from numba import jit
+
 #Implemented from https://tiefenauer.github.io/blog/smith-waterman/
 
 #The goal of the smith-waterman algorithm is to find the optimal local subalignment between two sequences
