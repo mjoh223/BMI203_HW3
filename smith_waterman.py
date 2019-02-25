@@ -1,6 +1,7 @@
 import itertools
 import numpy as np
 import pandas as pd
+import os
 import csv
 from itertools import dropwhile
 import numba
@@ -22,6 +23,8 @@ def matrix(a, b, match_score, gap_cost, gap_extension):
     dictionary = dict(zip(keys, values))
     gapA_list = []
     gapB_list = []
+    a = a.upper()
+    b = b.upper()
     for i, j in itertools.product(range(1, H.shape[0]), range(1, H.shape[1])):
         x = dictionary[a[i-1]] #substitution matrix coordinate for first amino acid
         y = dictionary[b[j-1]] #substitution matrix coordinate for second amino acid
@@ -87,12 +90,19 @@ def evaluate(sub_mtx, negpairs, pospairs):
     return rate_sum
 
 def mutate(negpairs, pospairs):
-    a = np.random.rand(24, 24) #ensure the matrix is symmetric
-    M = np.tril(a) + np.tril(a, -1).T #ensure the matrix is symmetric
+    #a = np.random.rand(24, 24) #ensure the matrix is symmetric
+    #M = np.tril(a) + np.tril(a, -1).T #ensure the matrix is symmetric
+    M = scoringMatrixParse(os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "BLOSUM50"))
     new_score = 1
     previous_score = 0
-    while previous_score < new_score < 4:
-        new_score = evaluate(M, negpairs, pospairs)
-        print(new_score)
-        np.random.shuffle(M)
+    for i in range(0,5):
+        if previous_score < new_score < 4:
+            new_score = evaluate(M, negpairs, pospairs)
+            print(new_score)
+            np.random.shuffle(M)
+        else:
+            a = np.random.rand(24, 24) #ensure the matrix is symmetric
+            M = np.tril(a) + np.tril(a, -1).T #ensure the matrix is symmetric
+            new_score = evaluate(M, negpairs, pospairs)
+            np.random.shuffle(M)
     return M

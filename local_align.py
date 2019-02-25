@@ -1,13 +1,13 @@
 import argparse
 import numpy as np
+import pandas as pd
 from smith_waterman import scoringMatrixParse, matrix, traceback, evaluate, mutate
 import os
 import glob
 import csv
 import itertools
 from Bio import SeqIO
-import numba
-from numba import jit
+
 
 def str2bool(v):
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
@@ -55,9 +55,10 @@ def main():
                 seq_B = str(fasta.seq).upper()
                 posb_list.append(seq_B)
     ############# -- create optimized matrix -- ###############
-    negative = np.array(list(zip(nega_list, negb_list)))
-    positive = np.array(list(zip(posa_list, posb_list)))
+    negative = np.array(list(zip(nega_list, negb_list))[:4])
+    positive = np.array(list(zip(posa_list, posb_list))[:4])
     optimized_matrix = mutate(negative, positive)
+    pd.DataFrame(optimized_matrix)
     optimized_matrix.shape
     np.reshape(optimized_matrix, (22,22)).shape
 
@@ -66,8 +67,11 @@ p_list = np.zeros((50))
 fpr_list = []
 roc_list = []
 M = scoringMatrixParse(os.path.join("/Users/matt/OneDrive/UCSF/algorithms/HW3/scoring_matrices/", "PAM250"))
-for x, a in enumerate(zip(nega_list,negb_list)):
+M.shape
+M = optimized_matrix
+for x, a in enumerate(list(zip(nega_list,negb_list))[:1]):
     H = matrix(a[0], a[1], M, -9, -3)
+    pd.DataFrame(H)
     s = traceback(H, True, b=seq_B, b_="", old_i=0)
     s_list[x] = s
 for x, a in enumerate(zip(posa_list,posb_list)):
