@@ -1,6 +1,6 @@
 # BMI203_HW3
 [![Build
-Status](https://travis-ci.org/mjoh223/HW3.svg?branch=master)](https://travis-ci.org/mjoh223/HW3)
+Status](https://travis-ci.org/mjoh223/BMI203_HW3.svg?branch=master)](https://travis-ci.org/mjoh223/BMI203_HW3)
 
 Smith-Waterman algorithm
 
