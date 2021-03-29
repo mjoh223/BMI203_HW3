@@ -32,7 +32,7 @@ ptyprocess==0.6.0
 py==1.7.0
 pycosat==0.6.3
 pycparser==2.19
-Pygments==2.3.1
+Pygments==2.7.4
 pyOpenSSL==18.0.0
 pyparsing==2.3.1
 PySocks==1.6.8
