@@ -21,7 +21,7 @@ kiwisolver==1.0.1
 llvmlite==0.27.0
 matplotlib==3.0.2
 more-itertools==5.0.0
-numpy==1.15.4
+numpy==1.22.0
 pandas==0.24.1
 parso==0.3.2
 pexpect==4.6.0
